@@ -1,4 +1,4 @@
-package com.cia.lms.system.Entity;
+package com.cia.lms.system.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Users {
    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private Long id;
     String name;
     String email;
     String password;

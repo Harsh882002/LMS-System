@@ -1,4 +1,4 @@
-package com.cia.lms.system.Entity;
+package com.cia.lms.system.model;
 
 public enum Role {
     ADMIN,
