@@ -32,4 +32,10 @@ public class UserService {
         }
     }
 
+
+    public String registerAdmin(Users user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'registerAdmin'");
+    }
+
 }
