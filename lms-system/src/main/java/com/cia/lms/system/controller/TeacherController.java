@@ -5,31 +5,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+ import org.springframework.web.bind.annotation.RestController;
 
 import com.cia.lms.system.model.Users;
-import com.cia.lms.system.service.StudentService;
+import com.cia.lms.system.service.TeacherService;
 
 @RestController
 @RequestMapping("/user")
+public class TeacherController {
 
-public class StudentController {
 
     @Autowired
-    StudentService service;
-    
+    TeacherService service;
 
-    @PostMapping("/student")
-    ResponseEntity<?> studentRegister(@RequestBody Users user){
+    @PostMapping("/teacher")
+    ResponseEntity<?> teacherRegister(@RequestBody Users user){
+
         try{
-            String message  = service.studentRegister(user);
+            String message = service.teacherRegister(user);
             return ResponseEntity.ok(message);
         }catch(Exception e){
-            return ResponseEntity.status(500).body("Internal server Error : "  + e.getMessage());
+            return ResponseEntity.status(500).body("Internal server Error : " + e.getMessage());
         }
 
-
     }
-
-
+    
+    
 }

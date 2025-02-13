@@ -8,28 +8,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cia.lms.system.model.Users;
-import com.cia.lms.system.service.StudentService;
+import com.cia.lms.system.service.ManagerService;
 
 @RestController
 @RequestMapping("/user")
-
-public class StudentController {
+public class ManagerController {
 
     @Autowired
-    StudentService service;
-    
+    ManagerService service;
 
-    @PostMapping("/student")
-    ResponseEntity<?> studentRegister(@RequestBody Users user){
+    @PostMapping("/manager")
+    ResponseEntity<?> managerRegister(@RequestBody Users user) {
         try{
-            String message  = service.studentRegister(user);
+            String message = service.managerRegister(user);
             return ResponseEntity.ok(message);
         }catch(Exception e){
-            return ResponseEntity.status(500).body("Internal server Error : "  + e.getMessage());
+            return ResponseEntity.status(500).body("Internal server Error : " + e.getMessage());
         }
-
-
+                
     }
-
 
 }
