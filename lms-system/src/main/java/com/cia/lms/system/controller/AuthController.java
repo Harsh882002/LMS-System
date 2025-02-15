@@ -35,36 +35,36 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
 
         try {
-             
+
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
-        UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
-        String token = jwtService.generateToken(userDetails.getUsername());
+            UserPrinciple userDetails = (UserPrinciple) authentication.getPrincipal();
+            String token = jwtService.generateToken(userDetails.getUsername());
 
+            // Create a secure HTTP-only cookie for the JWT token
+            Cookie cookie = new Cookie("jwt", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setPath("/");
+            cookie.setMaxAge((int) TimeUnit.HOURS.toSeconds(1)); // Expires in 1 hour
 
-                // Create a secure HTTP-only cookie for the JWT token
-   Cookie cookie = new Cookie("jwt",token);
-   cookie.setHttpOnly(true);
-   cookie.setSecure(false);
-   cookie.setPath("/");
-   cookie.setMaxAge((int) TimeUnit.HOURS.toSeconds(1)); // Expires in 1 hour
+            response.addCookie(cookie);
 
-   response.addCookie(cookie);
-
-
-   return ResponseEntity.ok(Map.of("message", "Login successful! Token is stored in cookies"));
-} catch (BadCredentialsException e) {
+            return ResponseEntity.ok(Map.of("message", "Login successful! Token is stored in cookies"));
+        } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid email or password"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Login failed", "details", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Login failed", "details", e.getMessage()));
         }
     }
+
+
+   
 
 }

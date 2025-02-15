@@ -39,7 +39,12 @@ public class JWTFilter extends OncePerRequestFilter{
         String username = null;
     
         if (token != null) {
-            username = jwtService.extractEMail(token);
+            try{
+                username = jwtService.extractEMail(token);
+            }catch (Exception e) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
+                return; // Stop request processing
+            }
         }
     
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -63,12 +68,18 @@ public class JWTFilter extends OncePerRequestFilter{
         Cookie[] cookies = request.getCookies();
         if(cookies != null){
             for(Cookie cookie : cookies){
+                System.out.println("Cookie: " + cookie.getName() + " = " + cookie.getValue()); // Log cookie
+
                 if("jwt".equals(cookie.getName()))
                 {
-                    return cookie.getValue();
+                    System.out.println("Extracted JWT Token: " + cookie.getValue()); // Log JWT extraction
+
+                    return cookie.getValue().trim();
                 }
             }
         }
+        System.out.println("No JWT token found in cookies."); // Log missing JWT
+
         return null;
     }
  

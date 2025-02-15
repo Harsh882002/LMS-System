@@ -46,9 +46,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login/**").permitAll()
-                        .requestMatchers("/admin/register/**").hasAnyAuthority("ADMIN","MANAGER","TEACHER")
-                        .requestMatchers("/manager/register/**").hasAnyAuthority("MANAGER","TEACHER")
-                        .requestMatchers("/teacher/register/**").hasAuthority("TEACHER")
+                        .requestMatchers("/admin/register/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/manager/register/**").hasAnyAuthority("ADMIN","MANAGER")
+                        .requestMatchers("/teacher/register/**").hasAnyAuthority("ADMIN","MANAGER")
                         .requestMatchers("/student/register/**").hasAuthority("STUDENT")
                         .anyRequest().authenticated()
 
