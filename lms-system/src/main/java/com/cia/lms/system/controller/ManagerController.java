@@ -11,13 +11,13 @@ import com.cia.lms.system.model.Users;
 import com.cia.lms.system.service.ManagerService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/manager")
 public class ManagerController {
 
     @Autowired
     ManagerService service;
 
-    @PostMapping("/manager")
+    @PostMapping("/register")
     ResponseEntity<?> managerRegister(@RequestBody Users user) {
         try{
             String message = service.managerRegister(user);

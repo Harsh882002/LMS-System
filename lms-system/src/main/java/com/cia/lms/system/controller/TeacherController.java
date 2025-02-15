@@ -11,14 +11,14 @@ import com.cia.lms.system.model.Users;
 import com.cia.lms.system.service.TeacherService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/teacher")
 public class TeacherController {
 
 
     @Autowired
     TeacherService service;
 
-    @PostMapping("/teacher")
+    @PostMapping("/register")
     ResponseEntity<?> teacherRegister(@RequestBody Users user){
 
         try{

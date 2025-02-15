@@ -1,5 +1,7 @@
 package com.cia.lms.system.model;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
@@ -35,6 +37,7 @@ public class Users {
 
     @Enumerated(EnumType.STRING)
     @JsonProperty("role")
-     Role role;
+     private Role role;
+
 
 }

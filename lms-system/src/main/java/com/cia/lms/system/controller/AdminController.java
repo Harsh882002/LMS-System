@@ -11,20 +11,23 @@ import com.cia.lms.system.model.Users;
 import com.cia.lms.system.service.AdminService;
  
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/admin")
 public class AdminController {
-
+ 
     @Autowired
     AdminService service;
 
-    @PostMapping("/admin")
+    @PostMapping("/register")
     public ResponseEntity<?> registerAdmin(@RequestBody Users user) {
         try {
             String message = service.registerAdmin(user);
             return ResponseEntity.ok(message);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Internal Server Error : " + e.getMessage());
-        }  
+            // Log the error (use a logger in real projects)
+            return ResponseEntity.status(500).body("An unexpected error occurred. Please try again.");
+        }
     }
 
 }

@@ -8,4 +8,7 @@ import com.cia.lms.system.model.Users;
 @Repository
 public interface UserRepo extends JpaRepository<Users, Long> {
     
+    Users findByEmail(String email);
+
 }
+ 

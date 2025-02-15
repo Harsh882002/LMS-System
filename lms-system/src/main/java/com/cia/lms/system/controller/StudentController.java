@@ -11,7 +11,7 @@ import com.cia.lms.system.model.Users;
 import com.cia.lms.system.service.StudentService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/student")
 
 public class StudentController {
 
@@ -19,7 +19,7 @@ public class StudentController {
     StudentService service;
     
 
-    @PostMapping("/student")
+    @PostMapping("/register")
     ResponseEntity<?> studentRegister(@RequestBody Users user){
         try{
             String message  = service.studentRegister(user);
