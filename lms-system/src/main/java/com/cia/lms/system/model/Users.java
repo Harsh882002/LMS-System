@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Users {
    
-    @Id
+    @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @JsonProperty("id")

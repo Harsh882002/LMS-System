@@ -1,5 +1,7 @@
 package com.cia.lms.system.service;
 
+import java.util.List;
+
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cia.lms.system.model.Role;
 import com.cia.lms.system.model.Users;
 import com.cia.lms.system.repository.UserRepo;
 
@@ -17,8 +20,21 @@ public class AdminService {
     @Autowired
     private UserRepo repo; 
 
-    @Autowired
+    @Autowired 
     private BCryptPasswordEncoder encoder;
+
+
+    public List<Users> fetchAdmin(){
+        try{
+            return repo.findByRole(Role.MANAGER);
+        }catch(Exception e){
+            throw new RuntimeException("Error occurred while fetching admin users.", e);
+
+        }
+    }
+
+
+
 
     public String registerAdmin(Users user) {
         try {

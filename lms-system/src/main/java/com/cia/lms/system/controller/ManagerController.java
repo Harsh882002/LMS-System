@@ -12,10 +12,12 @@ import com.cia.lms.system.service.ManagerService;
 
 @RestController
 @RequestMapping("/manager")
-public class ManagerController {
+public class ManagerController { 
 
     @Autowired
     ManagerService service;
+
+    
 
     @PostMapping("/register")
     ResponseEntity<?> managerRegister(@RequestBody Users user) {

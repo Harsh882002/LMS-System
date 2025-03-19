@@ -28,7 +28,7 @@ public class ManagerService {
             throw e;  // Propagate already handled exceptions
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error occurred while registering the admin.");
-        }
+        } 
     
     }
 }

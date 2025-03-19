@@ -1,7 +1,10 @@
 package com.cia.lms.system.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,13 @@ public class AdminController {
     @Autowired
     AdminService service;
 
+   
+    @GetMapping("/print")
+   public List<Users> fetchAdmin(){
+        return service.fetchAdmin();
+    }
+
+ 
     @PostMapping("/register")
     public ResponseEntity<?> registerAdmin(@RequestBody Users user) {
         try {
@@ -25,8 +35,7 @@ public class AdminController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            // Log the error (use a logger in real projects)
-            return ResponseEntity.status(500).body("An unexpected error occurred. Please try again.");
+             return ResponseEntity.status(500).body("An unexpected error occurred. Please try again.");
         }
     }
 

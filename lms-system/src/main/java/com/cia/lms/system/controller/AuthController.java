@@ -1,6 +1,7 @@
 package com.cia.lms.system.controller;
 
 import java.nio.file.attribute.UserPrincipal;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -12,15 +13,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cia.lms.system.model.LoginRequest;
 import com.cia.lms.system.model.UserPrinciple;
-import com.cia.lms.system.service.AuthService;
 import com.cia.lms.system.service.JWTService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,7 +52,7 @@ public class AuthController {
             cookie.setHttpOnly(true);
             cookie.setSecure(false);
             cookie.setPath("/");
-            cookie.setMaxAge((int) TimeUnit.HOURS.toSeconds(1)); // Expires in 1 hour
+            cookie.setMaxAge(-1); // Expires in 1 hour
 
             response.addCookie(cookie);
 
@@ -64,7 +65,29 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token, HttpServletResponse response) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body("Invalid token");
+        }
 
-   
+        String jwtToken = token.substring(7); // Remove "Bearer " prefix
+        tokenBlacklistService.blacklistToken(jwtToken); // Add to blacklist
+
+        SecurityContextHolder.clearContext(); // Clear authentication context
+
+        // Clear JWT Cookie
+        Cookie cookie = new Cookie("jwt", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // Delete immediately
+        response.addCookie(cookie);
+
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("message", "Logged out successfully");
+
+        return ResponseEntity.ok(responseMap);
+    }
 
 }

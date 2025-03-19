@@ -45,7 +45,14 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login/**").permitAll()
+                
+//for getmapping
+                        .requestMatchers("/admin/print/**").permitAll()
+
+                //for postmappng
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/logout").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/admin/register/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/manager/register/**").hasAnyAuthority("ADMIN","MANAGER")
                         .requestMatchers("/teacher/register/**").hasAnyAuthority("ADMIN","MANAGER")
@@ -56,6 +63,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 
